@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignUpForm
 from django.contrib.auth import authenticate, login
 from blog_app .models import Post
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -19,3 +20,24 @@ def signup(request):
         "signup_form": signup_form,
     }
     return render(request, 'user_app/signup.html', context)
+
+def detail(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    posts = user.post_set.all().order_by('-created_at')
+    return render(request, 'user_app/detail.html', {'user': user, 'posts': posts})
+
+def edit(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == "POST":
+        form = SignUpForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_app:detail', user_id=user.id)
+    else:
+        form = SignUpForm(instance=user)
+    return render(request, 'user_app/edit.html', {'form': form, 'user':user })
+
+def delete(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user.delete()
+    return redirect('blog_app:index')
