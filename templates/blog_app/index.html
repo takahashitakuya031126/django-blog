@@ -1,1 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>this is index.</h1>
+
+{% for post in posts%}
+    <a href="{% url 'blog_app:detail' post_id=post.id %}">
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
+        <h5>{{post.title|truncatechars:13 | linebreaksbr}}</h5>
+        <p>{{post.text}}</p>
+    </a>
+    <p>#{{post.tag}}</p>
+    <p>{{post.created_at}}</p>
+    <hr>
+{% endfor %}
+
+{% endblock %}
