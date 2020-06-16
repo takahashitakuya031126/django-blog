@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'bootstrap4',
     'widget_tweaks',
+    'user_app',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_URL = 'user_app:login'
+LOGIN_REDIRECT_URL = 'blog_app:index'
+LOGOUT_REDIRECT_URL = 'blog_app:index'
