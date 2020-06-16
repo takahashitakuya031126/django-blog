@@ -3,6 +3,17 @@
 
 <h1 class="mt-5 pt-4 text-center">投稿一覧</h1>
 
+<div class="d-flex justify-content-center">
+    <form class="form-inline my-2" method="GET" action="{% url 'blog_app:index' %}">
+        <input type="text" class="form-control" name="q" value="{{request.GET.q}}">
+        <button type="submit" value="search" class="btn btn-outline-primary">検索</button>
+    </form>
+</div>
+
+{% if query %}
+    <p class="text-center font-weight-bold h4">{{posts.count}}件</p>
+{% endif%}
+
 <div class="d-flex justify-content-center flex-wrap">
     {% for post in posts%}
     <a href="{% url 'blog_app:detail' post_id=post.id %}">

@@ -8,12 +8,21 @@ from django.conf import settings
 from django.core.mail import BadHeaderError, send_mail
 from .forms import PostAddForm, ContactForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
 def index(request):
-    posts = Post.objects.all().order_by('-created_at')
-    return render(request, 'blog_app/index.html', {'posts': posts})
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.all().order_by('-created_at')
+        posts = posts.filter(
+        Q(title__icontains=query)|
+        Q(user__username__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.all().order_by('-created_at')  
+    return render(request, 'blog_app/index.html', {'posts': posts, 'query': query,})
 
 def detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
