@@ -13,8 +13,10 @@
             <p class="card-text">{{ post.text }}</p>
             <p>#{{post.tag}}</p>
             <p>{{post.created_at}}</p>
-            <a href="{% url 'blog_app:edit' post_id=post.id %}"><button type="button" class="btn btn-outline-primary">編集</button></a>
-            <a href="{% url 'blog_app:delete' post_id=post.id %}"><button type="button" class="btn btn-outline-danger">削除</button></a>
+            {% if request.user == post.user %}
+                <a href="{% url 'blog_app:edit' post_id=post.id %}"><button type="button" class="btn btn-outline-primary">編集</button></a>
+                <a href="{% url 'blog_app:delete' post_id=post.id %}"><button type="button" class="btn btn-outline-danger">削除</button></a>
+            {% endif %}
         </div>
     </div>
 </div>

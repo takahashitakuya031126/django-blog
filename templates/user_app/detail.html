@@ -3,7 +3,9 @@
 
 <h1 class="text-center my-5">{{ user.username }}のページ</h1>
 
-<div class="text-center"><a href="{% url 'user_app:edit' user_id=user.id %}"><button type="button" class="btn btn-outline-info">{{user}} 編集</button></a></div>
+{% if request.user == user %}
+    <div class="text-center"><a href="{% url 'user_app:edit' user_id=user.id %}"><button type="button" class="btn btn-outline-info">{{user}}の記事を編集する</button></a></div>
+{% endif %}
 
 <div class="d-flex justify-content-center flex-wrap">
     {% for post in posts%}

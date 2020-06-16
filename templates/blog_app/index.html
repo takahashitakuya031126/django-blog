@@ -18,8 +18,11 @@
                     {{ post.text|truncatechars:17 }}
                 </p>
             </a>
+            <p></p>
                 <p>#{{post.tag}}</p>
-                <p>{{post.created_at}}</p>
+                <p>{{post.created_at}} |
+                    <a href="{% url 'user_app:detail' post.user.id %}">{{post.user.username}}</a>
+                </p>
             </div>
         </div>
     {% endfor %}

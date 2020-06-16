@@ -18,8 +18,10 @@
         <label for="id_password2" class="text-secondary">パスワード(確認用)</label>
         {{ form.password2|add_class:"form-control mb-3"}}
 
-        <button type="submit" class="btn btn-block btn-outline-success mb-3">編集</button>
-        <button type="submit" class="btn btn-outline-danger">退会する</button>
+        {% if request.user == user %}
+            <a href="{% url 'user_app:edit' user_id=user.id %}"><button type="button" class="btn btn-block btn-outline-success">編集する</button></a>
+            <a href="{% url 'user_app:delete' user_id=user.id %}"><button type="button" class="btn btn-block btn-outline-danger">退会する</button></a>
+        {% endif %}
     </form>
 </div>
 </div>

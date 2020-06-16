@@ -3,6 +3,7 @@ from .forms import SignUpForm
 from django.contrib.auth import authenticate, login
 from blog_app .models import Post
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -26,6 +27,7 @@ def detail(request, user_id):
     posts = user.post_set.all().order_by('-created_at')
     return render(request, 'user_app/detail.html', {'user': user, 'posts': posts})
 
+@login_required
 def edit(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == "POST":
@@ -37,6 +39,7 @@ def edit(request, user_id):
         form = SignUpForm(instance=user)
     return render(request, 'user_app/edit.html', {'form': form, 'user':user })
 
+@login_required
 def delete(request, user_id):
     user = get_object_or_404(User, id=user_id)
     user.delete()
