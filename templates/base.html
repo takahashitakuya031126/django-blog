@@ -18,5 +18,46 @@
     {% endblock %}
 </div>
 {% include 'footer.html' %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(event){
+    $(document).on('click', '#like', function(event){
+        event.preventDefault();
+        var post_id = $(this).attr('value');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "blog_app:like" %}',
+            data: {'post_id': post_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            dataType: 'json',
+            success: function(response){
+                $('#like').html(response['form'])
+                console.log($('#like').html(response['form']));
+            },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            }
+        });
+    });
+    
+    $(document).on('submit', '.comment-form', function(event){
+        event.preventDefault();
+        console.log($(this).serialize());
+        $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response){
+                $('.main-comment-section').html(response['form']);
+            },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+        });
+    });
+});
+
+</script>
 </body>
 </html>

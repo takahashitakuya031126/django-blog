@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Tag
+from .models import Post, Tag, Comment
 from django.forms import ModelForm
 from django import forms
 
@@ -13,3 +13,8 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='メールアドレス',)
     message = forms.CharField(label='メッセージ', widget=forms.Textarea)
     myself = forms.BooleanField(label='内容を受け取る', required=False)
+
+class CmtForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
